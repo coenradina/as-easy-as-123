@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>for you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===================== PASSWORD SCREEN ===================== -->
+  <main id="password-screen" class="screen">
+    <div class="password-card">
+      <div class="mini-jar" aria-hidden="true">
+        <div class="mini-jar-lid"></div>
+        <div class="mini-jar-body"></div>
+      </div>
+      <h1>a little something is waiting for you</h1>
+      <p class="subtitle">you know the word&hellip;</p>
+      <form id="password-form" autocomplete="off">
+        <input
+          type="password"
+          id="password-input"
+          name="password"
+          placeholder="secret word"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button type="submit">open</button>
+      </form>
+      <p id="password-error" class="error-msg" role="alert" aria-live="polite"></p>
+    </div>
+  </main>
+
+  <!-- ===================== MAIN APP SCREEN ===================== -->
+  <main id="app-screen" class="screen hidden">
+
+    <div class="scene">
+
+      <div class="bubble" id="bubble" hidden>
+        <p id="bubble-text"></p>
+      </div>
+
+      <button class="jar" id="jar" aria-label="click the jar">
+        <div class="jar-lid">
+          <div class="lid-ridge"></div>
+          <div class="lid-ridge"></div>
+          <div class="lid-ridge"></div>
+          <div class="lid-highlight"></div>
+          <div class="lid-bead"></div>
+        </div>
+        <div class="jar-body">
+          <div class="body-highlight body-highlight--diag"></div>
+          <div class="body-highlight body-highlight--vert"></div>
+          <div class="body-highlight body-highlight--dot"></div>
+          <div class="face">
+            <div class="eye eye-left"><span class="glint glint-big"></span><span class="glint glint-small"></span></div>
+            <div class="eye eye-right"><span class="glint glint-big"></span></div>
+            <div class="cheek cheek-left"></div>
+            <div class="cheek cheek-right"></div>
+            <div class="mouth"></div>
+          </div>
+          <div class="base-seam"></div>
+        </div>
+      </button>
+
+      <p class="hint" id="hint">click the jar</p>
+    </div>
+
+    <div class="moods" id="moods" hidden>
+      <button class="mood-btn" data-mood="happy"><span class="mood-emoji">😊</span><span class="mood-label">happy</span></button>
+      <button class="mood-btn" data-mood="sad"><span class="mood-emoji">😢</span><span class="mood-label">sad</span></button>
+      <button class="mood-btn" data-mood="tired"><span class="mood-emoji">😴</span><span class="mood-label">tired</span></button>
+      <button class="mood-btn" data-mood="bored"><span class="mood-emoji">😑</span><span class="mood-label">bored</span></button>
+      <button class="mood-btn" data-mood="idk"><span class="mood-emoji">🤷</span><span class="mood-label">idk</span></button>
+      <button class="mood-btn" data-mood="missingMe"><span class="mood-emoji">🥺</span><span class="mood-label">missing me</span></button>
+    </div>
+
+    <div class="letter-overlay" id="letter-overlay" hidden>
+      <div class="letter-card" id="letter-card">
+        <p class="letter-text" id="letter-text"></p>
+        <button class="letter-close" id="letter-close">back to the jar</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="data/letters.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

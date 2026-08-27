@@ -1,0 +1,588 @@
+/* =========================================================
+   tokens
+========================================================= */
+:root {
+  --jar-glass-light: #eafcf6;
+  --jar-glass-mid: #d9edf1;
+  --jar-glass-dark: #a9c3d4;
+  --jar-lid: #b9d3e0;
+  --jar-lid-dark: #93b3c6;
+  --jar-line: #1c2330;
+  --blush: #ef8e8e;
+  --blush-soft: #f2a3a3;
+  --bg-top: #fbeaf0;
+  --bg-bottom: #dceefb;
+  --ink: #3a3550;
+  --ink-soft: #7c7593;
+  --bubble-bg: #ffffff;
+  --bubble-border: #2c2740;
+  --card-bg: #fffdf8;
+  --accent: #ff9fb0;
+  --accent-deep: #e8748e;
+
+  --font-ui: "Quicksand", system-ui, sans-serif;
+  --font-hand: "Caveat", cursive;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  overflow-x: hidden;
+}
+
+.hidden { display: none !important; }
+
+/* author rules below set `display` unconditionally on these elements for
+   their visible state, which (per CSS cascade rules) would otherwise beat
+   the browser's default [hidden]{display:none} UA rule — restore it. */
+.moods[hidden],
+.letter-overlay[hidden],
+.bubble[hidden] {
+  display: none !important;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* =========================================================
+   screens
+========================================================= */
+.screen {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+}
+
+/* ---------- password screen ---------- */
+.password-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 28px;
+  padding: 40px 32px 32px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 50px -20px rgba(60, 40, 70, 0.35);
+  animation: card-in 0.6s ease both;
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.mini-jar {
+  width: 64px;
+  height: 78px;
+  margin: 0 auto 18px;
+  position: relative;
+}
+.mini-jar-lid {
+  width: 46px;
+  height: 16px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, var(--jar-lid) 0%, var(--jar-lid-dark) 100%);
+  border: 2px solid var(--jar-line);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+.mini-jar-body {
+  width: 64px;
+  height: 62px;
+  background: linear-gradient(160deg, var(--jar-glass-light) 0%, var(--jar-glass-mid) 60%, var(--jar-glass-dark) 100%);
+  border: 2px solid var(--jar-line);
+  border-radius: 10px 10px 22px 22px;
+  animation: bob 3.2s ease-in-out infinite;
+}
+
+h1 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+.subtitle {
+  margin: 0 0 20px;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+#password-form {
+  display: flex;
+  gap: 8px;
+}
+#password-input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 2px solid #e3cfe0;
+  background: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  min-width: 0;
+}
+#password-input:focus {
+  border-color: var(--accent);
+}
+#password-form button {
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: none;
+  background: var(--accent-deep);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+#password-form button:hover {
+  background: var(--accent);
+}
+#password-form button:active {
+  transform: scale(0.95);
+}
+
+.error-msg {
+  min-height: 20px;
+  margin: 12px 0 0;
+  color: var(--accent-deep);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.shake {
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-8px); }
+  40%, 60% { transform: translateX(8px); }
+}
+
+/* =========================================================
+   app screen / scene
+========================================================= */
+#app-screen {
+  justify-content: flex-start;
+  padding-top: 8vh;
+  gap: 18px;
+}
+
+.scene {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: screen-in 0.5s ease both;
+}
+
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hint {
+  margin-top: 18px;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  animation: pulse-hint 2.4s ease-in-out infinite;
+}
+@keyframes pulse-hint {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+/* =========================================================
+   speech bubble
+========================================================= */
+.bubble {
+  position: relative;
+  max-width: 280px;
+  min-width: 160px;
+  margin-bottom: 14px;
+  background: var(--bubble-bg);
+  border: 2.5px solid var(--bubble-border);
+  border-radius: 20px;
+  padding: 14px 18px;
+  text-align: center;
+  box-shadow: 0 6px 0 -2px rgba(44, 39, 64, 0.08);
+  animation: bubble-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: var(--bubble-bg);
+  border-right: 2.5px solid var(--bubble-border);
+  border-bottom: 2.5px solid var(--bubble-border);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  border-radius: 0 0 0 4px;
+}
+
+@keyframes bubble-pop {
+  0%   { opacity: 0; transform: scale(0.6) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.bubble.swap #bubble-text {
+  animation: text-crossfade 0.35s ease both;
+}
+@keyframes text-crossfade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+#bubble-text {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* =========================================================
+   THE JAR — pure CSS drawing
+========================================================= */
+.jar {
+  position: relative;
+  width: 190px;
+  height: 240px;
+  padding: 0;
+  border: none;
+  background: none;
+  animation: bob 3.6s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+.jar:active {
+  animation: none;
+  transform: scale(0.96);
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-6px) rotate(-1deg); }
+}
+
+/* ---- lid ---- */
+.jar-lid {
+  position: relative;
+  width: 132px;
+  height: 62px;
+  margin: 0 auto;
+  background: linear-gradient(120deg, #e8f6f4 0%, var(--jar-lid) 45%, var(--jar-lid-dark) 100%);
+  border: 3px solid var(--jar-line);
+  border-bottom: none;
+  border-radius: 46px 46px 10px 10px / 34px 34px 10px 10px;
+  overflow: hidden;
+}
+.lid-ridge {
+  position: absolute;
+  left: 8%;
+  width: 84%;
+  height: 3px;
+  background: var(--jar-line);
+  border-radius: 2px;
+  opacity: 0.85;
+}
+.lid-ridge:nth-child(1) { top: 30%; transform: rotate(-2deg); }
+.lid-ridge:nth-child(2) { top: 52%; transform: rotate(-1deg); }
+.lid-ridge:nth-child(3) { top: 74%; width: 92%; left: 4%; transform: rotate(-1deg); }
+
+.lid-highlight {
+  position: absolute;
+  top: 6px;
+  left: 22px;
+  width: 14px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  transform: rotate(18deg);
+  filter: blur(0.5px);
+}
+.lid-bead {
+  position: absolute;
+  top: 30%;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blush-soft);
+}
+
+/* ---- body ---- */
+.jar-body {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  margin-top: -6px;
+  background: linear-gradient(150deg, var(--jar-glass-light) 0%, var(--jar-glass-mid) 55%, var(--jar-glass-dark) 100%);
+  border: 3px solid var(--jar-line);
+  border-radius: 30px 30px 56px 56px / 30px 30px 46px 46px;
+  overflow: hidden;
+}
+
+.body-highlight {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  filter: blur(0.5px);
+}
+.body-highlight--diag {
+  top: 14px;
+  left: 22px;
+  width: 12px;
+  height: 120px;
+  transform: rotate(14deg);
+  opacity: 0.55;
+}
+.body-highlight--vert {
+  bottom: 18px;
+  left: 40px;
+  width: 8px;
+  height: 60px;
+  transform: rotate(6deg);
+  opacity: 0.4;
+}
+.body-highlight--dot {
+  top: 36px;
+  right: 28px;
+  width: 10px;
+  height: 10px;
+  opacity: 0.8;
+}
+
+.base-seam {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 22px;
+  height: 2px;
+  background: var(--jar-line);
+  opacity: 0.5;
+  border-radius: 2px;
+  transform: rotate(-2deg);
+}
+
+/* ---- face ---- */
+.face {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  width: 100%;
+  height: 90px;
+}
+
+.eye {
+  position: absolute;
+  top: 8px;
+  width: 22px;
+  height: 22px;
+  background: var(--jar-line);
+  border-radius: 50%;
+  animation: blink 5.5s ease-in-out infinite;
+}
+.eye-left { left: 46px; }
+.eye-right { left: 108px; animation-delay: 0.08s; }
+
+.glint {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+.glint-big {
+  top: 2px;
+  left: 3px;
+  width: 7px;
+  height: 7px;
+}
+.glint-small {
+  bottom: 3px;
+  right: 2px;
+  width: 3px;
+  height: 3px;
+  opacity: 0.85;
+}
+
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95%           { transform: scaleY(0.08); }
+}
+
+.cheek {
+  position: absolute;
+  top: 42px;
+  width: 34px;
+  height: 18px;
+  background: var(--blush);
+  border-radius: 50%;
+  opacity: 0.85;
+}
+.cheek-left {
+  left: 22px;
+  transform: rotate(-8deg);
+}
+.cheek-right {
+  right: 22px;
+  transform: rotate(8deg);
+  top: 36px;
+  background: var(--blush-soft);
+}
+
+.mouth {
+  position: absolute;
+  top: 66px;
+  left: 92px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--jar-line);
+  opacity: 0.6;
+}
+
+/* =========================================================
+   mood buttons
+========================================================= */
+.moods {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(80px, 1fr));
+  gap: 10px;
+  max-width: 380px;
+  width: 100%;
+  padding: 0 16px;
+  animation: screen-in 0.4s ease both;
+}
+
+.mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 6px;
+  border: 2px solid #ecdce8;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  color: var(--ink);
+  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.mood-btn:hover {
+  border-color: var(--accent);
+  background: #fff;
+  transform: translateY(-2px);
+}
+.mood-btn:active {
+  transform: scale(0.94);
+}
+.mood-emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.mood-label {
+  font-size: 0.8rem;
+}
+
+/* =========================================================
+   letter overlay
+========================================================= */
+.letter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(58, 53, 80, 0.45);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 20;
+  animation: fade-in 0.25s ease both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.letter-card {
+  position: relative;
+  max-width: 420px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: var(--card-bg);
+  border: 3px solid var(--jar-line);
+  border-radius: 18px;
+  padding: 34px 28px 26px;
+  box-shadow: 0 24px 60px -20px rgba(30, 20, 40, 0.5);
+  animation: letter-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  background-image:
+    linear-gradient(rgba(58, 53, 80, 0.06) 1px, transparent 1px);
+  background-size: 100% 34px;
+}
+
+@keyframes letter-in {
+  from { opacity: 0; transform: scale(0.85) translateY(14px) rotate(-1.5deg); }
+  to   { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); }
+}
+
+.letter-text {
+  margin: 0 0 22px;
+  font-family: var(--font-hand);
+  font-size: 1.65rem;
+  line-height: 1.5;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+
+.letter-close {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 14px;
+  background: var(--accent-deep);
+  color: #fff;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.letter-close:hover { background: var(--accent); }
+.letter-close:active { transform: scale(0.95); }
+
+/* =========================================================
+   responsive
+========================================================= */
+@media (max-width: 420px) {
+  .jar { width: 160px; height: 202px; }
+  .jar-lid { width: 112px; height: 52px; }
+  .jar-body { width: 160px; height: 160px; }
+  .face { top: 52px; height: 76px; }
+  .eye { width: 19px; height: 19px; top: 6px; }
+  .eye-left { left: 36px; }
+  .eye-right { left: 92px; }
+  .cheek { width: 28px; height: 15px; top: 36px; }
+  .cheek-right { top: 30px; }
+  .mouth { left: 78px; top: 56px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jar, .mini-jar-body, .eye, .hint { animation: none !important; }
+}
