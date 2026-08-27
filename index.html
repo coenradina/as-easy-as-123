@@ -6,7 +6,7 @@
 <title>for you</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@500;600;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -15,8 +15,47 @@
   <main id="password-screen" class="screen">
     <div class="password-card">
       <div class="mini-jar" aria-hidden="true">
-        <div class="mini-jar-lid"></div>
-        <div class="mini-jar-body"></div>
+        <div class="mini-jar-scale">
+        <div class="jar-figure">
+          <div class="jar-lid">
+            <div class="twine">
+              <span class="twine-bow twine-bow-left"></span>
+              <span class="twine-knot"></span>
+              <span class="twine-bow twine-bow-right"></span>
+            </div>
+            <div class="lid-ridge"></div>
+            <div class="lid-ridge"></div>
+            <div class="lid-highlight"></div>
+          </div>
+          <div class="jar-body-wrap">
+            <svg class="jar-body-svg" viewBox="0 0 190 200" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="glassGrad-mini" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="var(--jar-glass-light)" />
+                  <stop offset="55%" stop-color="var(--jar-glass-mid)" />
+                  <stop offset="100%" stop-color="var(--jar-glass-dark)" />
+                </linearGradient>
+              </defs>
+              <path class="jar-body-shape" fill="url(#glassGrad-mini)"
+                d="M29,0 C10,8 6,22 6,40 L6,174 C6,188 16,200 30,200 L160,200 C174,200 184,188 184,174 L184,40 C184,22 180,8 161,0 Z" />
+            </svg>
+            <div class="body-highlight body-highlight--diag"></div>
+            <div class="body-highlight body-highlight--dot"></div>
+            <div class="notes-inside">
+              <div class="note note-1"></div>
+              <div class="note note-2"></div>
+              <div class="note note-3"></div>
+            </div>
+            <div class="face">
+              <div class="eye eye-left"><span class="glint glint-big"></span><span class="glint glint-small"></span></div>
+              <div class="eye eye-right"><span class="glint glint-big"></span></div>
+              <div class="cheek cheek-left"></div>
+              <div class="cheek cheek-right"></div>
+              <div class="mouth"></div>
+            </div>
+          </div>
+        </div>
+        </div>
       </div>
       <h1>a little something is waiting for you</h1>
       <p class="subtitle">you know the word&hellip;</p>
@@ -45,25 +84,46 @@
       </div>
 
       <button class="jar" id="jar" aria-label="click the jar">
-        <div class="jar-lid">
-          <div class="lid-ridge"></div>
-          <div class="lid-ridge"></div>
-          <div class="lid-ridge"></div>
-          <div class="lid-highlight"></div>
-          <div class="lid-bead"></div>
-        </div>
-        <div class="jar-body">
-          <div class="body-highlight body-highlight--diag"></div>
-          <div class="body-highlight body-highlight--vert"></div>
-          <div class="body-highlight body-highlight--dot"></div>
-          <div class="face">
-            <div class="eye eye-left"><span class="glint glint-big"></span><span class="glint glint-small"></span></div>
-            <div class="eye eye-right"><span class="glint glint-big"></span></div>
-            <div class="cheek cheek-left"></div>
-            <div class="cheek cheek-right"></div>
-            <div class="mouth"></div>
+        <div class="jar-scale">
+        <div class="jar-figure">
+          <div class="jar-lid">
+            <div class="twine">
+              <span class="twine-bow twine-bow-left"></span>
+              <span class="twine-knot"></span>
+              <span class="twine-bow twine-bow-right"></span>
+            </div>
+            <div class="lid-ridge"></div>
+            <div class="lid-ridge"></div>
+            <div class="lid-highlight"></div>
           </div>
-          <div class="base-seam"></div>
+          <div class="jar-body-wrap">
+            <svg class="jar-body-svg" viewBox="0 0 190 200" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="glassGrad-main" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="var(--jar-glass-light)" />
+                  <stop offset="55%" stop-color="var(--jar-glass-mid)" />
+                  <stop offset="100%" stop-color="var(--jar-glass-dark)" />
+                </linearGradient>
+              </defs>
+              <path class="jar-body-shape" fill="url(#glassGrad-main)"
+                d="M29,0 C10,8 6,22 6,40 L6,174 C6,188 16,200 30,200 L160,200 C174,200 184,188 184,174 L184,40 C184,22 180,8 161,0 Z" />
+            </svg>
+            <div class="body-highlight body-highlight--diag"></div>
+            <div class="body-highlight body-highlight--dot"></div>
+            <div class="notes-inside">
+              <div class="note note-1"></div>
+              <div class="note note-2"></div>
+              <div class="note note-3"></div>
+            </div>
+            <div class="face">
+              <div class="eye eye-left"><span class="glint glint-big"></span><span class="glint glint-small"></span></div>
+              <div class="eye eye-right"><span class="glint glint-big"></span></div>
+              <div class="cheek cheek-left"></div>
+              <div class="cheek cheek-right"></div>
+              <div class="mouth"></div>
+            </div>
+          </div>
+        </div>
         </div>
       </button>
 

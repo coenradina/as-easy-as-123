@@ -18,6 +18,7 @@ local testing" for how to log in without a real deploy.
 - `data/letters.js` — the 123 letters (20 each for happy/sad/tired/bored/idk, 23 for missingMe)
 - `data/auth.js` — **generated at deploy time, gitignored, never committed.** Holds only `window.SITE_PASSWORD_HASH`, the SHA-256 hash of the real password.
 - `.github/workflows/deploy.yml` — builds `data/auth.js` from the `SITE_PASSWORD` secret and deploys to GitHub Pages
+- `assets/bg-desktop.png`, `assets/bg-mobile.png` — the cozy pixel-art backgrounds (swapped via a CSS media query); regenerate with `scripts/gen_backgrounds.py`
 
 ## Password & local testing
 
@@ -58,6 +59,18 @@ backticks (so you can write multi-line text freely). Replace the
 placeholder text — don't add or remove entries, since the counts are fixed
 at 20/20/20/20/20/23 (123 total). Letters are drawn from a shuffled bag per
 mood so the same one won't repeat until all 20 (or 23) have been shown.
+
+## Regenerating the backgrounds
+
+The two pixel-art scenes are generated, not hand-drawn:
+
+```
+pip install Pillow
+python3 scripts/gen_backgrounds.py
+```
+
+Edit the palette/layout constants at the top of `scripts/gen_backgrounds.py`
+to tweak colors or composition, then re-run.
 
 ## Deploying
 

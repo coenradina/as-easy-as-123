@@ -1,26 +1,44 @@
 /* =========================================================
-   tokens
+   tokens — cottagecore: moss green + terracotta + warm cream
 ========================================================= */
 :root {
-  --jar-glass-light: #eafcf6;
-  --jar-glass-mid: #d9edf1;
-  --jar-glass-dark: #a9c3d4;
-  --jar-lid: #b9d3e0;
-  --jar-lid-dark: #93b3c6;
-  --jar-line: #1c2330;
-  --blush: #ef8e8e;
-  --blush-soft: #f2a3a3;
-  --bg-top: #fbeaf0;
-  --bg-bottom: #dceefb;
-  --ink: #3a3550;
-  --ink-soft: #7c7593;
-  --bubble-bg: #ffffff;
-  --bubble-border: #2c2740;
-  --card-bg: #fffdf8;
-  --accent: #ff9fb0;
-  --accent-deep: #e8748e;
+  /* moss */
+  --moss-900: #2c3722;
+  --moss-700: #46592f;
+  --moss-500: #6c8348;
+  --moss-300: #9db47c;
+  --moss-100: #e2ead1;
+
+  /* terracotta */
+  --terra-700: #9c4d2c;
+  --terra-500: #c1683d;
+  --terra-300: #e0a06e;
+  --terra-100: #f6e2c9;
+
+  /* neutrals */
+  --cream: #fbf1de;
+  --cream-deep: #f0e0bd;
+  --parchment: #f4e9cf;
+  --ink: #3a2f22;
+  --ink-soft: #6f6250;
+
+  --jar-glass-light: #f7f2df;
+  --jar-glass-mid: #e4e9cd;
+  --jar-glass-dark: #b9c6a0;
+  --jar-lid: #a9663f;
+  --jar-lid-dark: #7f4a2b;
+  --jar-line: #33291d;
+  --blush: #e39a72;
+  --blush-soft: #eab08a;
+
+  --bubble-bg: var(--cream);
+  --bubble-border: var(--ink);
+  --card-bg: var(--parchment);
+  --accent: var(--terra-300);
+  --accent-deep: var(--terra-700);
 
   --font-ui: "Quicksand", system-ui, sans-serif;
+  --font-heading: "Fredoka", "Quicksand", system-ui, sans-serif;
   --font-hand: "Caveat", cursive;
 }
 
@@ -32,8 +50,28 @@ html, body {
   min-height: 100%;
   font-family: var(--font-ui);
   color: var(--ink);
-  background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
   overflow-x: hidden;
+}
+
+body {
+  background-color: var(--moss-900);
+  background-image:
+    linear-gradient(rgba(30, 24, 15, 0.32), rgba(30, 24, 15, 0.42)),
+    url("assets/bg-mobile.png");
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  image-rendering: pixelated;
+}
+
+@media (min-width: 760px) {
+  body {
+    background-image:
+      linear-gradient(rgba(30, 24, 15, 0.3), rgba(30, 24, 15, 0.4)),
+      url("assets/bg-desktop.png");
+    background-attachment: fixed;
+  }
 }
 
 .hidden { display: none !important; }
@@ -67,15 +105,15 @@ button {
 
 /* ---------- password screen ---------- */
 .password-card {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(251, 241, 222, 0.88);
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 28px;
+  border: 3px solid var(--ink);
+  border-radius: 26px;
   padding: 40px 32px 32px;
   max-width: 360px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 20px 50px -20px rgba(60, 40, 70, 0.35);
+  box-shadow: 0 20px 50px -18px rgba(20, 16, 8, 0.55);
   animation: card-in 0.6s ease both;
 }
 
@@ -85,34 +123,30 @@ button {
 }
 
 .mini-jar {
-  width: 64px;
-  height: 78px;
-  margin: 0 auto 18px;
+  width: 70px;
+  height: 92px;
+  margin: 0 auto 16px;
   position: relative;
 }
-.mini-jar-lid {
-  width: 46px;
-  height: 16px;
-  margin: 0 auto;
-  background: linear-gradient(135deg, var(--jar-lid) 0%, var(--jar-lid-dark) 100%);
-  border: 2px solid var(--jar-line);
-  border-bottom: none;
-  border-radius: 8px 8px 0 0;
-}
-.mini-jar-body {
-  width: 64px;
-  height: 62px;
-  background: linear-gradient(160deg, var(--jar-glass-light) 0%, var(--jar-glass-mid) 60%, var(--jar-glass-dark) 100%);
-  border: 2px solid var(--jar-line);
-  border-radius: 10px 10px 22px 22px;
-  animation: bob 3.2s ease-in-out infinite;
+.mini-jar-scale {
+  /* a separate element from .jar-figure, which has its own `bob`
+     animation on `transform` — putting the static scale here instead of
+     on .jar-figure means the two transforms compose instead of one
+     clobbering the other every animation frame */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(0.365);
+  transform-origin: top center;
 }
 
 h1 {
+  font-family: var(--font-heading);
   font-size: 1.3rem;
-  font-weight: 700;
+  font-weight: 600;
   margin: 0 0 6px;
-  line-height: 1.3;
+  line-height: 1.35;
+  color: var(--moss-900);
 }
 .subtitle {
   margin: 0 0 20px;
@@ -128,28 +162,30 @@ h1 {
   flex: 1;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 2px solid #e3cfe0;
+  border: 2px solid var(--terra-300);
   background: #fff;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.2s ease;
   min-width: 0;
+  color: var(--ink);
 }
 #password-input:focus {
-  border-color: var(--accent);
+  border-color: var(--accent-deep);
 }
 #password-form button {
   padding: 12px 18px;
   border-radius: 14px;
   border: none;
-  background: var(--accent-deep);
-  color: #fff;
+  background: var(--moss-700);
+  color: var(--cream);
   font-weight: 700;
+  font-family: var(--font-heading);
   font-size: 0.95rem;
   transition: transform 0.15s ease, background 0.2s ease;
 }
 #password-form button:hover {
-  background: var(--accent);
+  background: var(--moss-500);
 }
 #password-form button:active {
   transform: scale(0.95);
@@ -178,7 +214,7 @@ h1 {
 ========================================================= */
 #app-screen {
   justify-content: flex-start;
-  padding-top: 8vh;
+  padding-top: 6vh;
   gap: 18px;
 }
 
@@ -187,6 +223,10 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 22px 26px 18px;
+  background: rgba(251, 241, 222, 0.22);
+  backdrop-filter: blur(3px);
+  border-radius: 32px;
   animation: screen-in 0.5s ease both;
 }
 
@@ -196,13 +236,15 @@ h1 {
 }
 
 .hint {
-  margin-top: 18px;
+  margin-top: 14px;
   font-size: 0.95rem;
-  color: var(--ink-soft);
+  font-weight: 600;
+  color: var(--cream);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
   animation: pulse-hint 2.4s ease-in-out infinite;
 }
 @keyframes pulse-hint {
-  0%, 100% { opacity: 0.55; }
+  0%, 100% { opacity: 0.65; }
   50% { opacity: 1; }
 }
 
@@ -219,7 +261,7 @@ h1 {
   border-radius: 20px;
   padding: 14px 18px;
   text-align: center;
-  box-shadow: 0 6px 0 -2px rgba(44, 39, 64, 0.08);
+  box-shadow: 0 6px 0 -2px rgba(44, 34, 20, 0.15);
   animation: bubble-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 .bubble::after {
@@ -258,19 +300,34 @@ h1 {
 }
 
 /* =========================================================
-   THE JAR — pure CSS drawing
+   THE JAR — pure CSS drawing (clip-path silhouette so it
+   actually reads as a jar: tapered neck, flared shoulder,
+   straight sides, rounded base) with little letters visible
+   inside through the glass.
 ========================================================= */
 .jar {
   position: relative;
   width: 190px;
-  height: 240px;
+  height: 262px;
   padding: 0;
   border: none;
   background: none;
+  display: block;
+}
+.jar-scale {
+  /* a separate element from .jar-figure (which has its own `bob`
+     animation on `transform`) so a static resize transform here doesn't
+     get clobbered by the animation every frame — see .mini-jar-scale */
+  width: 190px;
+  height: 262px;
+}
+.jar-figure {
+  width: 190px;
+  height: 262px;
   animation: bob 3.6s ease-in-out infinite;
   transform-origin: 50% 100%;
 }
-.jar:active {
+.jar:active .jar-figure {
   animation: none;
   transform: scale(0.96);
 }
@@ -280,17 +337,18 @@ h1 {
   50%      { transform: translateY(-6px) rotate(-1deg); }
 }
 
-/* ---- lid ---- */
+/* ---- lid + twine tie ---- */
 .jar-lid {
   position: relative;
   width: 132px;
-  height: 62px;
+  height: 58px;
   margin: 0 auto;
-  background: linear-gradient(120deg, #e8f6f4 0%, var(--jar-lid) 45%, var(--jar-lid-dark) 100%);
+  background: linear-gradient(120deg, #c17c4f 0%, var(--jar-lid) 45%, var(--jar-lid-dark) 100%);
   border: 3px solid var(--jar-line);
   border-bottom: none;
-  border-radius: 46px 46px 10px 10px / 34px 34px 10px 10px;
+  border-radius: 44px 44px 8px 8px / 30px 30px 8px 8px;
   overflow: hidden;
+  z-index: 2;
 }
 .lid-ridge {
   position: absolute;
@@ -299,101 +357,184 @@ h1 {
   height: 3px;
   background: var(--jar-line);
   border-radius: 2px;
-  opacity: 0.85;
+  opacity: 0.55;
 }
-.lid-ridge:nth-child(1) { top: 30%; transform: rotate(-2deg); }
-.lid-ridge:nth-child(2) { top: 52%; transform: rotate(-1deg); }
-.lid-ridge:nth-child(3) { top: 74%; width: 92%; left: 4%; transform: rotate(-1deg); }
+.lid-ridge:nth-child(1) { top: 34%; transform: rotate(-2deg); }
+.lid-ridge:nth-child(2) { top: 58%; width: 92%; left: 4%; transform: rotate(-1deg); }
 
 .lid-highlight {
   position: absolute;
   top: 6px;
-  left: 22px;
-  width: 14px;
-  height: 34px;
-  background: rgba(255, 255, 255, 0.8);
+  left: 20px;
+  width: 13px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.45);
   border-radius: 50%;
   transform: rotate(18deg);
   filter: blur(0.5px);
 }
-.lid-bead {
+
+.twine {
   position: absolute;
-  top: 30%;
-  right: 10px;
-  width: 6px;
-  height: 6px;
+  left: -7px;
+  right: -7px;
+  bottom: -2px;
+  height: 11px;
+  background: var(--cream);
+  border-top: 2px solid var(--terra-700);
+  border-bottom: 2px solid var(--terra-700);
+  z-index: 3;
+}
+.twine-knot {
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%);
+  background: var(--terra-500);
+  border: 2px solid var(--terra-700);
   border-radius: 50%;
-  background: var(--blush-soft);
+}
+.twine-bow {
+  position: absolute;
+  top: -9px;
+  width: 16px;
+  height: 16px;
+  background: var(--cream);
+  border: 2px solid var(--terra-700);
+}
+.twine-bow-left {
+  left: calc(50% - 20px);
+  border-radius: 12px 12px 12px 2px;
+  transform: rotate(-12deg);
+}
+.twine-bow-right {
+  left: calc(50% + 4px);
+  border-radius: 12px 12px 2px 12px;
+  transform: rotate(12deg);
 }
 
-/* ---- body ---- */
-.jar-body {
+/* ---- body: SVG draws the real jar silhouette (fill + stroke follow the
+   curved shoulder/base correctly, which clip-path alone can't do); the
+   wrapper clips its HTML overlay children (face, notes, highlights) to
+   the same silhouette so nothing pokes out past the glass edge. ---- */
+.jar-body-wrap {
   position: relative;
   width: 190px;
-  height: 190px;
-  margin-top: -6px;
-  background: linear-gradient(150deg, var(--jar-glass-light) 0%, var(--jar-glass-mid) 55%, var(--jar-glass-dark) 100%);
-  border: 3px solid var(--jar-line);
-  border-radius: 30px 30px 56px 56px / 30px 30px 46px 46px;
-  overflow: hidden;
+  height: 200px;
+  margin-top: -8px;
+  clip-path: path("M29,0 C10,8 6,22 6,40 L6,174 C6,188 16,200 30,200 L160,200 C174,200 184,188 184,174 L184,40 C184,22 180,8 161,0 Z");
+}
+.jar-body-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.jar-body-shape {
+  stroke: var(--jar-line);
+  stroke-width: 3;
 }
 
 .body-highlight {
   position: absolute;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.65);
   border-radius: 50%;
   filter: blur(0.5px);
 }
 .body-highlight--diag {
-  top: 14px;
-  left: 22px;
-  width: 12px;
-  height: 120px;
-  transform: rotate(14deg);
-  opacity: 0.55;
-}
-.body-highlight--vert {
-  bottom: 18px;
-  left: 40px;
-  width: 8px;
-  height: 60px;
-  transform: rotate(6deg);
-  opacity: 0.4;
+  top: 16px;
+  left: 20px;
+  width: 11px;
+  height: 130px;
+  transform: rotate(10deg);
+  opacity: 0.5;
 }
 .body-highlight--dot {
-  top: 36px;
-  right: 28px;
-  width: 10px;
-  height: 10px;
-  opacity: 0.8;
+  top: 30px;
+  right: 26px;
+  width: 9px;
+  height: 9px;
+  opacity: 0.75;
 }
 
-.base-seam {
+/* ---- little letters visible inside the jar ---- */
+.notes-inside {
   position: absolute;
-  left: 8%;
-  right: 8%;
-  bottom: 22px;
+  inset: 0;
+  z-index: 1;
+}
+.note {
+  position: absolute;
+  background: var(--parchment);
+  border: 1.5px solid var(--terra-700);
+  box-shadow: 0 2px 3px rgba(51, 41, 29, 0.2);
+  opacity: 0.94;
+}
+.note::before {
+  /* folded corner */
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--terra-100);
+  border-left: 1.5px solid var(--terra-700);
+  border-bottom: 1.5px solid var(--terra-700);
+}
+.note::after {
+  /* a hint of handwritten lines */
+  content: "";
+  position: absolute;
+  left: 14%;
+  right: 26%;
+  top: 38%;
   height: 2px;
-  background: var(--jar-line);
-  opacity: 0.5;
-  border-radius: 2px;
-  transform: rotate(-2deg);
+  background: var(--terra-500);
+  opacity: 0.55;
+  box-shadow: 0 7px 0 -1px var(--terra-500);
+}
+.note-1 {
+  width: 44px;
+  height: 26px;
+  top: 128px;
+  left: 16px;
+  transform: rotate(-10deg);
+}
+.note-2 {
+  width: 40px;
+  height: 24px;
+  top: 154px;
+  left: 74px;
+  transform: rotate(5deg);
+  z-index: 2;
+}
+.note-3 {
+  width: 42px;
+  height: 25px;
+  top: 130px;
+  left: 122px;
+  transform: rotate(11deg);
 }
 
 /* ---- face ---- */
 .face {
   position: absolute;
-  top: 62px;
+  top: 36px;
   left: 0;
   width: 100%;
-  height: 90px;
+  height: 86px;
+  z-index: 2;
 }
 
 .eye {
   position: absolute;
   top: 8px;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   background: var(--jar-line);
   border-radius: 50%;
   animation: blink 5.5s ease-in-out infinite;
@@ -409,8 +550,8 @@ h1 {
 .glint-big {
   top: 2px;
   left: 3px;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 .glint-small {
   bottom: 3px;
@@ -427,12 +568,12 @@ h1 {
 
 .cheek {
   position: absolute;
-  top: 42px;
-  width: 34px;
-  height: 18px;
+  top: 40px;
+  width: 32px;
+  height: 17px;
   background: var(--blush);
   border-radius: 50%;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 .cheek-left {
   left: 22px;
@@ -441,19 +582,19 @@ h1 {
 .cheek-right {
   right: 22px;
   transform: rotate(8deg);
-  top: 36px;
+  top: 34px;
   background: var(--blush-soft);
 }
 
 .mouth {
   position: absolute;
-  top: 66px;
+  top: 62px;
   left: 92px;
   width: 4px;
   height: 4px;
   border-radius: 50%;
   background: var(--jar-line);
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 /* =========================================================
@@ -475,16 +616,16 @@ h1 {
   align-items: center;
   gap: 4px;
   padding: 12px 6px;
-  border: 2px solid #ecdce8;
+  border: 2px solid var(--moss-300);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(251, 241, 222, 0.9);
   font-family: var(--font-ui);
   font-weight: 600;
   color: var(--ink);
   transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
 }
 .mood-btn:hover {
-  border-color: var(--accent);
+  border-color: var(--accent-deep);
   background: #fff;
   transform: translateY(-2px);
 }
@@ -505,7 +646,7 @@ h1 {
 .letter-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(58, 53, 80, 0.45);
+  background: rgba(44, 55, 34, 0.55);
   backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
@@ -530,10 +671,10 @@ h1 {
   border: 3px solid var(--jar-line);
   border-radius: 18px;
   padding: 34px 28px 26px;
-  box-shadow: 0 24px 60px -20px rgba(30, 20, 40, 0.5);
+  box-shadow: 0 24px 60px -18px rgba(20, 16, 8, 0.6);
   animation: letter-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   background-image:
-    linear-gradient(rgba(58, 53, 80, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(58, 46, 30, 0.08) 1px, transparent 1px);
   background-size: 100% 34px;
 }
 
@@ -557,32 +698,29 @@ h1 {
   padding: 10px 20px;
   border: none;
   border-radius: 14px;
-  background: var(--accent-deep);
-  color: #fff;
+  background: var(--moss-700);
+  color: var(--cream);
   font-weight: 700;
-  font-family: var(--font-ui);
+  font-family: var(--font-heading);
   font-size: 0.9rem;
   transition: background 0.2s ease, transform 0.15s ease;
 }
-.letter-close:hover { background: var(--accent); }
+.letter-close:hover { background: var(--moss-500); }
 .letter-close:active { transform: scale(0.95); }
 
 /* =========================================================
    responsive
 ========================================================= */
 @media (max-width: 420px) {
-  .jar { width: 160px; height: 202px; }
-  .jar-lid { width: 112px; height: 52px; }
-  .jar-body { width: 160px; height: 160px; }
-  .face { top: 52px; height: 76px; }
-  .eye { width: 19px; height: 19px; top: 6px; }
-  .eye-left { left: 36px; }
-  .eye-right { left: 92px; }
-  .cheek { width: 28px; height: 15px; top: 36px; }
-  .cheek-right { top: 30px; }
-  .mouth { left: 78px; top: 56px; }
+  .jar { width: 160px; height: 220px; }
+  .jar-scale {
+    width: 160px;
+    height: 220px;
+    transform: scale(0.842);
+    transform-origin: top center;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .jar, .mini-jar-body, .eye, .hint { animation: none !important; }
+  .jar-figure, .eye, .hint { animation: none !important; }
 }
