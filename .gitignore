@@ -1,0 +1,2 @@
+# generated at deploy time from the SITE_PASSWORD secret — never commit
+data/auth.js

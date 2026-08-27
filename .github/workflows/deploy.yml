@@ -1,0 +1,54 @@
+name: Deploy site
+
+# Builds and deploys the static site to GitHub Pages. The site password
+# never lives in this repo — it's read from the SITE_PASSWORD repository
+# secret at deploy time, hashed (SHA-256), and only the hash is written
+# into the deployed build. See README.md for setup steps.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Inject password hash
+        env:
+          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
+        run: |
+          if [ -z "$SITE_PASSWORD" ]; then
+            echo "::error::SITE_PASSWORD secret is not set. Add it under Settings > Secrets and variables > Actions > New repository secret."
+            exit 1
+          fi
+          HASH=$(printf '%s' "$SITE_PASSWORD" | sha256sum | cut -d' ' -f1)
+          printf '// generated at deploy time — do not commit\nwindow.SITE_PASSWORD_HASH = "%s";\n' "$HASH" > data/auth.js
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

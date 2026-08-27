@@ -2,7 +2,12 @@
   "use strict";
 
   /* ============== config ============== */
-  var PASSWORD = "gutierritos";
+  // The real password is never stored in this file. It's kept as the
+  // SITE_PASSWORD secret in GitHub Actions and, at deploy time, the
+  // workflow writes only its SHA-256 hash into data/auth.js (generated,
+  // gitignored — see README.md). We hash whatever the visitor types and
+  // compare hashes, so the plaintext password is never shipped to the
+  // browser or committed to the repo.
   var SESSION_KEY = "jar_unlocked";
 
   var GREETINGS = ["hola", "hihihihi", "haaaii", "halooo"];
@@ -35,20 +40,46 @@
     }
   }
 
+  function sha256Hex(text) {
+    var data = new TextEncoder().encode(text);
+    return crypto.subtle.digest("SHA-256", data).then(function (buffer) {
+      var bytes = Array.from(new Uint8Array(buffer));
+      return bytes.map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+    });
+  }
+
+  function rejectPassword() {
+    passwordError.textContent = "hmm, that's not it. try again?";
+    passwordCard.classList.remove("shake");
+    // force reflow so the animation can replay
+    void passwordCard.offsetWidth;
+    passwordCard.classList.add("shake");
+    passwordInput.value = "";
+    passwordInput.focus();
+  }
+
   passwordForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    var value = (passwordInput.value || "").trim().toLowerCase();
-    if (value === PASSWORD) {
-      unlock();
-    } else {
-      passwordError.textContent = "hmm, that's not it. try again?";
-      passwordCard.classList.remove("shake");
-      // force reflow so the animation can replay
-      void passwordCard.offsetWidth;
-      passwordCard.classList.add("shake");
-      passwordInput.value = "";
-      passwordInput.focus();
+
+    if (!window.SITE_PASSWORD_HASH) {
+      passwordError.textContent =
+        "site isn't configured yet — the SITE_PASSWORD secret hasn't been deployed. see README.md.";
+      return;
     }
+    if (!window.crypto || !window.crypto.subtle) {
+      passwordError.textContent =
+        "your browser can't verify the password here (needs HTTPS or localhost).";
+      return;
+    }
+
+    var value = (passwordInput.value || "").trim().toLowerCase();
+    sha256Hex(value).then(function (hash) {
+      if (hash === window.SITE_PASSWORD_HASH) {
+        unlock();
+      } else {
+        rejectPassword();
+      }
+    });
   });
 
   try {
